@@ -6,11 +6,14 @@
 #include "stm32f4xx_conf.h"
 #include "stm32f4xx.h"
 #include "main.h"
-
+// USB
 #include "usbd_cdc_core.h"
 #include "usbd_usr.h"
 #include "usbd_desc.h"
 #include "usbd_cdc_vcp.h"
+// Camera
+#include "ov7670.h"
+#include "ov7670reg.h"
 
 // Private variables
 volatile uint32_t time_var1, time_var2;

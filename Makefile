@@ -4,10 +4,13 @@ SRCS = main.c stm32f4xx_it.c system_stm32f4xx.c syscalls.c
 
 # USB
 SRCS += usbd_usr.c usbd_cdc_vcp.c usbd_desc.c usb_bsp.c
+#
+# Camera ov7670
+SRCS += ov7670.c i2c.c
 
 # Project name
 
-PROJ_NAME=stm32f4_usb_cdc
+PROJ_NAME=stm32f4_usb_cam
 OUTPATH=build
 
 ###################################################
