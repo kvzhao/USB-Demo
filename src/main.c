@@ -12,6 +12,7 @@
 #include "usbd_desc.h"
 #include "usbd_cdc_vcp.h"
 
+#include "stm32f4_discovery_lis302dl.h"
 // Private variables
 volatile uint32_t time_var1, time_var2;
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE  USB_OTG_dev __ALIGN_END;
@@ -111,6 +112,29 @@ void timing_handler() {
 void Delay(volatile uint32_t nCount) {
 	time_var1 = nCount;
 	while(time_var1){};
+}
+
+/**
+  * @brief  MEMS accelerometre management of the timeout situation.
+  * @param  None.
+  * @retval None.
+  */
+uint32_t LIS302DL_TIMEOUT_UserCallback(void)
+{
+  /* MEMS Accelerometer Timeout error occured during Test program execution */
+  if (0)
+  {
+    /* Timeout error occured for SPI TXE/RXNE flags waiting loops.*/
+    //Fail_Handler();
+  }
+  /* MEMS Accelerometer Timeout error occured during Demo execution */
+  else
+  {
+    while (1)
+    {
+    }
+  }
+  return 0;
 }
 
 /*

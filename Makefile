@@ -1,13 +1,35 @@
 # Sources
-
 SRCS = main.c stm32f4xx_it.c system_stm32f4xx.c syscalls.c
 
 # USB
 SRCS += usbd_usr.c usbd_cdc_vcp.c usbd_desc.c usb_bsp.c
 
+# Periph
+SRCS += ./lib/StdPeriph/src/stm32f4xx_rcc.c \
+	 ./lib/StdPeriph/src/stm32f4xx_gpio.c \
+	 ./lib/StdPeriph/src/stm32f4xx_tim.c \
+	 ./lib/StdPeriph/src/stm32f4xx_spi.c \
+	 ./lib/StdPeriph/src/stm32f4xx_exti.c \
+	 ./lib/StdPeriph/src/stm32f4xx_adc.c \
+	 ./lib/StdPeriph/src/stm32f4xx_syscfg.c \
+	 ./lib/StdPeriph/src/stm32f4xx_dma.c \
+	 ./lib/StdPeriph/src/stm32f4xx_dac.c \
+	 ./lib/StdPeriph/src/stm32f4xx_i2c.c \
+	 ./lib/StdPeriph/src/stm32f4xx_flash.c \
+	 ./lib/StdPeriph/src/misc.c \
+#	 ./lib/STM32_USB_Device_Library/Core/src/usbd_core.c \
+#	 ./lib/STM32_USB_Device_Library/Core/src/usbd_ioreq.c \
+#	 ./lib/STM32_USB_Device_Library/Core/src/usbd_req.c \
+#	 ./lib/STM32_USB_OTG_Driver/src/usb_core.c \
+#	 ./lib/STM32_USB_OTG_Driver/src/usb_dcd.c \
+#	 ./lib/STM32_USB_OTG_Driver/src/usb_dcd_int.c \
+i#	 ./lib/STM32_USB_Device_Library/Class/hid/src/usbd_hid_core.c \
+
+# MEMS
+SRCS += stm32f4_discovery_lis302dl.c
 # Project name
 
-PROJ_NAME=stm32f4_usb_cdc
+PROJ_NAME=stm32f4_usb_mems
 OUTPATH=build
 
 ###################################################
@@ -24,7 +46,6 @@ endif
 endif
 
 ###################################################
-
 
 CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
@@ -54,8 +75,9 @@ CFLAGS += -Ilib/Conf
 # Library paths
 LIBPATHS = -Llib/StdPeriph -Llib/USB_Device/Core
 LIBPATHS += -Llib/USB_Device/Class/cdc -Llib/USB_OTG
+LIBPATHS += -Linc
 
-# Libraries to link
+# lib to link
 LIBS = -lm -lstdperiph -lusbdevcore -lusbdevcdc -lusbcore
 
 # Extra includes
