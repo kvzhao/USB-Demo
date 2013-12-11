@@ -22,6 +22,12 @@ void Delay(volatile uint32_t nCount);
 void init();
 void calculation_test();
 
+// MEMS
+LIS302DL_InitTypeDef  LIS302DL_InitStruct;
+LIS302DL_FilterConfigTypeDef LIS302DL_FilterStruct;
+__IO int8_t X_Offset, Y_Offset, Z_Offset  = 0x00;
+uint8_t Buffer[6];
+
 int main(void) {
 	init();
 
@@ -48,21 +54,27 @@ void calculation_test() {
 	int iteration = 0;
 
 	for(;;) {
+
 		GPIO_SetBits(GPIOD, GPIO_Pin_12);
-		Delay(500);
+		Delay(5);
 		GPIO_ResetBits(GPIOD, GPIO_Pin_12);
-		Delay(500);
+		//Delay(500);
 
 		time_var2 = 0;
-		for (int i = 0;i < 1000000;i++) {
-			a += 0.01 * sqrtf(a);
-		}
+//		for (int i = 0;i < 10000; i++) { a += 0.01 * sqrtf(a);}
 
-		printf("Time:      %lu ms\n\r", time_var2);
-		printf("Iteration: %i\n\r", iteration);
-		printf("Value:     %.5f\n\n\r", a);
+        LIS302DL_Read(Buffer, LIS302DL_OUT_X_ADDR, 6);
+        X_Offset = Buffer[0];
+        Y_Offset = Buffer[2];
+        Z_Offset = Buffer[4];
 
-		iteration++;
+		//printf("Time:      %lu ms\n\r", time_var2);
+		//printf("Iteration: %i\n\r", iteration);
+		//printf("Value:     %.5f\n\n\r", a);
+        printf("%i",X_Offset);
+        printf("%i",Y_Offset);
+        Delay(10);
+//		iteration++;
 	}
 }
 
@@ -93,6 +105,23 @@ void init() {
 	            &USR_desc,
 	            &USBD_CDC_cb,
 	            &USR_cb);
+
+    // MEMS configuration
+    LIS302DL_InitStruct.Power_Mode = LIS302DL_LOWPOWERMODE_ACTIVE;
+    LIS302DL_InitStruct.Output_DataRate = LIS302DL_DATARATE_400; // 100 or 400 Hz
+    LIS302DL_InitStruct.Axes_Enable = LIS302DL_XYZ_ENABLE;
+    LIS302DL_InitStruct.Full_Scale = LIS302DL_FULLSCALE_2_3;
+    LIS302DL_InitStruct.Self_Test = LIS302DL_SELFTEST_NORMAL;
+    LIS302DL_Init(&LIS302DL_InitStruct);
+
+    // Required delay for the MEMS Accelerometre: Turn-on time = 3/Output data Rate = 3/100 = 30ms
+    Delay(30);
+
+    // MEMS High Pass Filter configuration
+    LIS302DL_FilterStruct.HighPassFilter_Data_Selection = LIS302DL_FILTEREDDATASELECTION_OUTPUTREGISTER;
+    LIS302DL_FilterStruct.HighPassFilter_CutOff_Frequency = LIS302DL_HIGHPASSFILTER_LEVEL_1;
+    LIS302DL_FilterStruct.HighPassFilter_Interrupt = LIS302DL_HIGHPASSFILTERINTERRUPT_1_2;
+    LIS302DL_FilterConfig(&LIS302DL_FilterStruct);
 }
 
 /*
@@ -102,7 +131,6 @@ void timing_handler() {
 	if (time_var1) {
 		time_var1--;
 	}
-
 	time_var2++;
 }
 
@@ -122,18 +150,9 @@ void Delay(volatile uint32_t nCount) {
 uint32_t LIS302DL_TIMEOUT_UserCallback(void)
 {
   /* MEMS Accelerometer Timeout error occured during Test program execution */
-  if (0)
-  {
     /* Timeout error occured for SPI TXE/RXNE flags waiting loops.*/
     //Fail_Handler();
-  }
   /* MEMS Accelerometer Timeout error occured during Demo execution */
-  else
-  {
-    while (1)
-    {
-    }
-  }
   return 0;
 }
 
