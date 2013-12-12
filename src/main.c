@@ -50,8 +50,6 @@ int main(void) {
 }
 
 void calculation_test() {
-	float a = 1.001;
-	int iteration = 0;
 
 	for(;;) {
 
@@ -61,20 +59,14 @@ void calculation_test() {
 		//Delay(500);
 
 		time_var2 = 0;
-//		for (int i = 0;i < 10000; i++) { a += 0.01 * sqrtf(a);}
 
         LIS302DL_Read(Buffer, LIS302DL_OUT_X_ADDR, 6);
         X_Offset = Buffer[0];
         Y_Offset = Buffer[2];
         Z_Offset = Buffer[4];
 
-		//printf("Time:      %lu ms\n\r", time_var2);
-		//printf("Iteration: %i\n\r", iteration);
-		//printf("Value:     %.5f\n\n\r", a);
         printf("%i",X_Offset);
-        printf("%i",Y_Offset);
         Delay(10);
-//		iteration++;
 	}
 }
 
