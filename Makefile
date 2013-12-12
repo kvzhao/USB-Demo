@@ -16,14 +16,7 @@ SRCS += ./lib/StdPeriph/src/stm32f4xx_rcc.c \
 	 ./lib/StdPeriph/src/stm32f4xx_dac.c \
 	 ./lib/StdPeriph/src/stm32f4xx_i2c.c \
 	 ./lib/StdPeriph/src/stm32f4xx_flash.c \
-	 ./lib/StdPeriph/src/misc.c \
-#	 ./lib/STM32_USB_Device_Library/Core/src/usbd_core.c \
-#	 ./lib/STM32_USB_Device_Library/Core/src/usbd_ioreq.c \
-#	 ./lib/STM32_USB_Device_Library/Core/src/usbd_req.c \
-#	 ./lib/STM32_USB_OTG_Driver/src/usb_core.c \
-#	 ./lib/STM32_USB_OTG_Driver/src/usb_dcd.c \
-#	 ./lib/STM32_USB_OTG_Driver/src/usb_dcd_int.c \
-i#	 ./lib/STM32_USB_Device_Library/Class/hid/src/usbd_hid_core.c \
+	 ./lib/StdPeriph/src/misc.c
 
 # MEMS
 SRCS += stm32f4_discovery_lis302dl.c
