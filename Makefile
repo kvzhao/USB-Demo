@@ -2,7 +2,7 @@
 SRCS = main.c stm32f4xx_it.c system_stm32f4xx.c syscalls.c
 
 # USB
-SRCS += usbd_usr.c usbd_cdc_vcp.c usbd_desc.c usb_bsp.c
+SRCS += usbh_usr.c usb_bsp.c
 
 # Periph
 SRCS += ./lib/StdPeriph/src/stm32f4xx_rcc.c \
@@ -18,11 +18,8 @@ SRCS += ./lib/StdPeriph/src/stm32f4xx_rcc.c \
 	 ./lib/StdPeriph/src/stm32f4xx_flash.c \
 	 ./lib/StdPeriph/src/misc.c
 
-# MEMS
-SRCS += stm32f4_discovery_lis302dl.c
 # Project name
-
-PROJ_NAME=stm32f4_usb_mems
+PROJ_NAME=stm32f4_usb_drv
 OUTPATH=build
 
 ###################################################
@@ -59,25 +56,26 @@ endif
 vpath %.c src
 vpath %.a lib
 
-#ROOT=$(shell pwd)
+ROOT=$(shell pwd)
 
 # Includes
 CFLAGS += -Iinc -Ilib/Core/cmsis -Ilib/Core/stm32
 CFLAGS += -Ilib/Conf
 
 # Library paths
-LIBPATHS = -Llib/StdPeriph -Llib/USB_Device/Core
-LIBPATHS += -Llib/USB_Device/Class/cdc -Llib/USB_OTG
-LIBPATHS += -Linc
+LIBPATHS = -Llib/StdPeriph -Llib/USB_OTG
+LIBPATHS += -Llib/USB_Host/Core -Llib/USB_Host/Class/MSC
+LIBPATHS += -Llib/fat_fs
+#LIBPATHS += -Linc
 
 # lib to link
-LIBS = -lm -lstdperiph -lusbdevcore -lusbdevcdc -lusbcore
-
+LIBS = -lm -lfatfs -lstdperiph -lusbhostcore -lusbhostmsc -lusbcore
 # Extra includes
+CFLAGS += -Ilib/USB_Host/Core/inc
+CFLAGS += -Ilib/USB_Host/Class/MSC/inc
+CFLAGS += -Ilib/fat_fs/inc
 CFLAGS += -Ilib/StdPeriph/inc
 CFLAGS += -Ilib/USB_OTG/inc
-CFLAGS += -Ilib/USB_Device/Core/inc
-CFLAGS += -Ilib/USB_Device/Class/cdc/inc
 
 # add startup file to build
 SRCS += lib/startup_stm32f4xx.s
