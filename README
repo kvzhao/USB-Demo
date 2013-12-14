@@ -1,0 +1,14 @@
+In the memory-stick branch
+
+The program is the demo that STM32F4 is the host, writing a file to portable disk
+
+Steps:
+    1. Plug in the disk
+    2. Observe the LEDs
+        RED On    -> disk is attached
+        Green On  -> file system is mounted
+        Orange On -> open the directory of the usb disk
+        Blue On   -> Complete writing the signautre
+    3. All LEDs are turned off when the device is disconnected
+
+
