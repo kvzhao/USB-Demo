@@ -11,4 +11,4 @@ Steps:
         Blue On   -> Complete writing the signautre
     3. All LEDs are turned off when the device is disconnected
 
-
+Developer's Note : http://kvzhao.blogspot.tw/2013/12/stm32f407-usb-filesystem-dev-notes.html
