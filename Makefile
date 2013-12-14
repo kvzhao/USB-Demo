@@ -19,7 +19,7 @@ SRCS += ./lib/StdPeriph/src/stm32f4xx_rcc.c \
 	 ./lib/StdPeriph/src/misc.c
 
 # Project name
-PROJ_NAME=stm32f4_usb_drv
+PROJ_NAME=stm32f4_hackin_usb
 OUTPATH=build
 
 ###################################################
