@@ -103,6 +103,8 @@ void USBH_USR_DeviceDisconnected (void)
 {
 	GPIO_ResetBits(GPIOD, GPIO_Pin_14);
 	GPIO_ResetBits(GPIOD, GPIO_Pin_12);
+	GPIO_ResetBits(GPIOD, GPIO_Pin_13);
+	GPIO_ResetBits(GPIOD, GPIO_Pin_15);
 	enum_done = 0;
 }
 
@@ -201,7 +203,7 @@ void USBH_USR_EnumerationDone(void)
 	/* 0.5 seconds delay */
 	USB_OTG_BSP_mDelay(500);
 	USBH_USR_MSC_Application();
-} 
+}
 
 /**
  * @brief  USBH_USR_DeviceNotSupported

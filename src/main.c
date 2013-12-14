@@ -1,6 +1,7 @@
 #include "main.h"
 #include "core_cm4.h"
 #include "stm32f4xx_conf.h"
+#include "signature.h"
 #include <string.h>
 
 // Macros
@@ -13,15 +14,16 @@ USB_OTG_CORE_HANDLE		USB_OTG_Core;
 USBH_HOST				USB_Host;
 RCC_ClocksTypeDef		RCC_Clocks;
 volatile int			enum_done = 0;
+
+// File Names and Inserting Contents
 FIL file;
-char* nfile = "Hacking.txt";
-
-
+const char *nfile = "Hacking.txt";
+char *write_content = "MemoryStick Hacked!";
+// Loop iteration
+unsigned int i;
 // Private function prototypes
-static void AudioCallback(void *context,int buffer);
-static void play_mp3(char* filename);
 static FRESULT put_file_directory (const char* path, unsigned char seek);
-
+static void insert_signatre(FIL *fp);
 /*
  * Main function. Called when startup code is done with
  * copying memory and setting up clocks.
@@ -76,71 +78,26 @@ static FRESULT put_file_directory (const char* path, unsigned char seek) {
 	fno.lfsize = sizeof(lfn);
 #endif
 
-
 	res = f_opendir(&dir, path); /* Open the directory */
+
 	if (res == FR_OK) {
-        const char* nfile = "Hacking.txt";
+
         res = f_open(&file, nfile, FA_CREATE_NEW | FA_WRITE);
         GPIO_SetBits(GPIOD, GPIO_Pin_13);
         if (res == FR_OK) {
-            char *wrt_content = "MemoryStick Hacked!";
-            f_printf(&file, wrt_content);
+            insert_signatre(&file);
             f_close(&file);
             GPIO_SetBits(GPIOD, GPIO_Pin_15);
         }
     }
-        /*
-		for (;;) {
-			res = f_readdir(&dir, &fno); // Read a directory item
-			if (res != FR_OK || fno.fname[0] == 0)
-                break; // Break on error or end of dir
-            }
-			if (fno.fname[0] == '.') continue; // Ignore dot entry
-#if _USE_LFN
-			fn = *fno.lfname ? fno.lfname : fno.fname;
-#else
-			fn = fno.fname;
-#endif
-			if (fno.fattrib & AM_DIR) { // It is a directory
-
-			} else { // It is a file.
-				//sprintf(buffer, "%s/%s", path, fn);
-				}
-		}
-    */
 	return res;
 }
 
-static void play_mp3(char* filename) {
-	unsigned int br, btr;
-	FRESULT res;
-
-	//bytes_left = FILE_READ_BUFFER_SIZE;
-	//read_ptr = file_read_buffer;
-
-        char *wrt_content = "MemoryStick Hacked!";
-        f_printf(nfile, wrt_content);
-        GPIO_SetBits(GPIOD, GPIO_Pin_14);
-
-        f_close(&file);
-	if (FR_OK == f_open(&file, filename, FA_OPEN_EXISTING | FA_WRITE)) {
-
-		// Read ID3v2 Tag
-//		Mp3ReadId3V2Tag(&file, szArtist, sizeof(szArtist), szTitle, sizeof(szTitle));
-
-		// Fill buffer
-//		f_read(&file, file_read_buffer, FILE_READ_BUFFER_SIZE, &br);/
-//        f_write(&file, wrt_content, );
-        f_close(&file);
-		}
+static void insert_signatre(FIL *fp) {
+    for(i=0; i < SIGNATURE_LINES; i++) {
+        f_printf(fp, "%s\n", hacking_cont[i]);
+    }
 }
-
-/*
- * Called by the audio driver when it is time to provide data to
- * one of the audio buffers (while the other buffer is sent to the
- * CODEC using DMA). One mp3 frame is decoded at a time and
- * provided to the audio driver.
- */
 
 /*
  * Dummy function to avoid compiler error
