@@ -17,8 +17,7 @@ volatile int			enum_done = 0;
 
 // File Names and Inserting Contents
 FIL file;
-const char *nfile = "Hacking.txt";
-char *write_content = "MemoryStick Hacked!";
+const char *nfile = "Hacking.txt"; // Name of file
 // Loop iteration
 unsigned int i;
 // Private function prototypes
@@ -68,21 +67,15 @@ const char *get_filename_ext(const char *filename) {
 
 static FRESULT put_file_directory (const char* path, unsigned char seek) {
 	FRESULT res;
-	FILINFO fno;
+	// FILINFO fno; // TODO:: showing directory with UART
 	DIR dir;
-	char *fn; /* This function is assuming non-Unicode cfg. */
-	char buffer[200];
-#if _USE_LFN
-	static char lfn[_MAX_LFN + 1];
-	fno.lfname = lfn;
-	fno.lfsize = sizeof(lfn);
-#endif
 
 	res = f_opendir(&dir, path); /* Open the directory */
 
 	if (res == FR_OK) {
 
         res = f_open(&file, nfile, FA_CREATE_NEW | FA_WRITE);
+        /* Open the file with name "Hacking.txt" */
         GPIO_SetBits(GPIOD, GPIO_Pin_13);
         if (res == FR_OK) {
             insert_signatre(&file);
