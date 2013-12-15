@@ -47,7 +47,11 @@ int main(void) {
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 
 	// Initialize USB Host Library
-	USBH_Init(&USB_OTG_Core, USB_OTG_FS_CORE_ID, &USB_Host, &USBH_MSC_cb, &USR_Callbacks);
+	USBH_Init(&USB_OTG_Core,
+             USB_OTG_FS_CORE_ID,
+             &USB_Host,
+             &USBH_MSC_cb,
+             &USR_Callbacks);
 
 	for(;;) {
 		USBH_Process(&USB_OTG_Core, &USB_Host);

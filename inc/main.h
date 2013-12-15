@@ -16,6 +16,8 @@
 #include "usbh_core.h"
 #include "usbh_msc_core.h"
 
+#include "usbh_hid_mouse.h"
+
 // Function prototypes
 void TimingDelay_Decrement(void);
 void Delay(volatile uint32_t nTime);

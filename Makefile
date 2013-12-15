@@ -64,7 +64,7 @@ CFLAGS += -Ilib/Conf
 
 # Library paths
 LIBPATHS = -Llib/StdPeriph -Llib/USB_OTG
-LIBPATHS += -Llib/USB_Host/Core -Llib/USB_Host/Class/MSC
+LIBPATHS += -Llib/USB_Host/Core -Llib/USB_Host/Class/MSC -Llib/USB_Host/Class/HID
 LIBPATHS += -Llib/fat_fs
 #LIBPATHS += -Linc
 
@@ -73,6 +73,7 @@ LIBS = -lm -lfatfs -lstdperiph -lusbhostcore -lusbhostmsc -lusbcore
 # Extra includes
 CFLAGS += -Ilib/USB_Host/Core/inc
 CFLAGS += -Ilib/USB_Host/Class/MSC/inc
+CFLAGS += -Ilib/USB_Host/Class/HID/inc
 CFLAGS += -Ilib/fat_fs/inc
 CFLAGS += -Ilib/StdPeriph/inc
 CFLAGS += -Ilib/USB_OTG/inc
